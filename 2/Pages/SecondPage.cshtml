@@ -1,0 +1,18 @@
+﻿@page
+@model MyApp.Namespace.SecondPageModel
+
+@if(Model.IsCorrect)
+{
+    <p>@Model.Message</p>
+}
+else
+{
+    <p>Incorrect data</p>
+}
+<form method = "post">
+    <label for="start">Start</label><br>
+    <input type="text" name="start" id="start"><br>
+    <label for="stop">Stop</label><br>
+    <input type="text" name="stop" id="stop"><br>
+    <input type="submit" value="Send">
+</form>
