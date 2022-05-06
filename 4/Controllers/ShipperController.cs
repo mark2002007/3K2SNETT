@@ -12,14 +12,14 @@ namespace Api.Controllers
             new Shipper { ShipperID = 2, CompanyName = "ShipThis", Phone = "+458102837648"},
         };
 
-        [HttpGet]
-        public async Task<ActionResult<List<Shipper>>> Get()
+        [HttpGet("GetAll")]
+        public async Task<ActionResult<List<Shipper>>> GetAll()
         {
             return Ok(shippers);   
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Shipper>> Get([FromRoute]int id)
+        [HttpGet("GetByID/{id}")]
+        public async Task<ActionResult<Shipper>> GetByID([FromRoute]int id)
         {
             var shipper = shippers.FirstOrDefault(s => s.ShipperID == id);
             if(shipper is null)
@@ -29,15 +29,28 @@ namespace Api.Controllers
             return Ok(shipper);   
         }
         
-        [HttpPost]
+        [HttpPost("AddShipper")]
         public async Task<ActionResult<List<Shipper>>> AddShipper([FromQuery]Shipper shipper)
         {
             shippers.Add(shipper);
             return Ok(shippers);   
         }
 
-        [HttpPut]
-        public async Task<ActionResult<List<Shipper>>> UpdateShipper([FromBody]Shipper request)
+        [HttpPost("EchoList")]
+        public async Task<ActionResult<List<string>>> EchoList([FromBody]List<string> strings)
+        {
+            return Ok(strings);   
+        }
+        [HttpPost("EchoCustomTypeList")]
+        public async Task<ActionResult<List<Shipper>>> EchoListOfShippers([FromRoute]List<Shipper> shrs)
+        {
+            // shippers.Add(shrs);
+            return Ok(shrs);
+        }
+
+
+        [HttpPut("UpdateShipper")]
+        public ActionResult<List<Shipper>> UpdateShipper([FromBody]Shipper request)
         {
             var shipper = shippers.FirstOrDefault(s => s.ShipperID == request.ShipperID);
             if(shipper is null)
@@ -51,9 +64,9 @@ namespace Api.Controllers
             shipper.Address.Street = request.Address.Street;
 
             return Ok(shippers);   
-        } 
+        }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("DeleteShipper/{id}")]
         public async Task<ActionResult<List<Shipper>>> Delete(int id)
         {
             var shipper = shippers.FirstOrDefault(s => s.ShipperID == id);
