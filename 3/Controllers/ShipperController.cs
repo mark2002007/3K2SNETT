@@ -11,7 +11,7 @@ namespace Api.Controllers
             new Shipper { ShipperID = 1, CompanyName = "ShippyCo", Phone = "+380961975662"},
             new Shipper { ShipperID = 2, CompanyName = "ShipThis", Phone = "+458102837648"},
         };
-
+        
         [HttpGet]
         public async Task<ActionResult<List<Shipper>>> Get()
         {
@@ -27,6 +27,17 @@ namespace Api.Controllers
                 return BadRequest("Shipper not found");
             }
             return Ok(shipper);   
+        }
+
+        [HttpGet("Check/{id}")]
+        public async Task<ActionResult<bool>> GetCheck(int id)
+        {
+            var shipper = shippers.FirstOrDefault(s => s.ShipperID == id);
+            if(shipper is null)
+            {
+                return Ok(false);
+            }
+            return Ok(true);   
         }
         
         [HttpPost]
